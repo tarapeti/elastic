@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
 
 @Getter
@@ -24,11 +23,11 @@ public class News implements Serializable {
 
     private String content;
 
-    private String created_at;
+    private String created;
 
-    public News(String header, String content, String created_at) {
+    public News(String header, String content, String created) {
         this.header = header;
         this.content = content;
-        this.created_at = created_at;
+        this.created = created;
     }
 }

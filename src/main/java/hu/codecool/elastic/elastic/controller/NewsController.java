@@ -1,5 +1,6 @@
 package hu.codecool.elastic.elastic.controller;
 
+import hu.codecool.elastic.elastic.dto.NewsDto;
 import hu.codecool.elastic.elastic.model.News;
 import hu.codecool.elastic.elastic.repository.ElasticRepository;
 import hu.codecool.elastic.elastic.service.NewsService;
@@ -25,17 +26,27 @@ public class NewsController {
         return newsService.getHtml();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path="/all")
     @ResponseBody
-    List<News> getAll(){
+    NewsDto getAll(){
         List<News> all = elasticRepository.findAll();
-        return all;
-
+        return new NewsDto(all);
     }
 
-    @DeleteMapping(path = "/deleteNews")
-    public @ResponseBody
-    void deleteNews(@RequestParam int id) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(path="/cont")
+    @ResponseBody
+    List<News> getByCont(@RequestBody String cont){
+        List<News> all = elasticRepository.findByContentContaining(cont);
+        return all;
+    }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(path="/date")
+    @ResponseBody
+    List<News> getByDate(@RequestBody String date){
+        List<News> all = elasticRepository.findByCreatedLike(date);
+        return all;
     }
 }

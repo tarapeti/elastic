@@ -29,7 +29,7 @@ public class SimpleNewsService implements NewsService {
 
         Elements topics = doc.select("div.story-body > div:nth-child(6) > .links-list > li > a");
 
-        //removing "Top Stories" because articles under it appear under other articles so it would result in inserting duplicated rows into db
+        //removing "Top Stories" because articles under it appear under other articles, so it would result in inserting duplicated rows into db
         topics.remove(topics.first());
 
         List<String> topicNames = getTopicNames(topics, doc);
@@ -41,8 +41,8 @@ public class SimpleNewsService implements NewsService {
         for (String url : urls) {
             Document subDoc = Jsoup.connect(url).get();
 
-            Elements creationDate = subDoc.select("item > pubDate");
-            List<String> datesUnderMainTopic = fetchElemets(creationDate);
+            Elements created = subDoc.select("item > pubDate");
+            List<String> dates = fetchElemets(created);
 
             Elements titles = subDoc.select("item > title");
             List<String> titlesUnderMainTopic = fetchElemets(titles);
@@ -52,7 +52,7 @@ public class SimpleNewsService implements NewsService {
 
             List<String> contents = fetchContents(linksUnderMainTopic);
 
-            List<News> onUrl = fetchNewsOnURL(titlesUnderMainTopic, contents, datesUnderMainTopic);
+            List<News> onUrl = fetchNewsOnURL(titlesUnderMainTopic, contents, dates);
 
             all.addAll(onUrl);
         }
@@ -118,10 +118,10 @@ public class SimpleNewsService implements NewsService {
         return elementsAsString;
     }
 
-    private List<News> fetchNewsOnURL(List<String> headers, List<String> content, List<String> created_at) {
+    private List<News> fetchNewsOnURL(List<String> headers, List<String> content, List<String> created) {
         List<News> all = new ArrayList<>();
         for (int i = 0; i < headers.size(); i++) {
-            all.add(new News(headers.get(i), content.get(i), created_at.get(i)));
+            all.add(new News(headers.get(i), content.get(i), created.get(i)));
         }
         return all;
     }
