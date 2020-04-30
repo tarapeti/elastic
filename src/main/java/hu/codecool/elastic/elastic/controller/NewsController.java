@@ -49,4 +49,18 @@ public class NewsController {
         List<News> all = elasticRepository.findByCreatedLike(date);
         return all;
     }
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(path="/getById")
+    @ResponseBody
+    News getById(@RequestBody String articleId){
+        News byIdLike = elasticRepository.findByIdLike(articleId);
+        return byIdLike;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping(path="/deleteAll")
+    @ResponseBody
+    void deleteAll(){
+        elasticRepository.deleteAll();
+    }
 }
