@@ -52,7 +52,7 @@ public class NewsController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path="/getById")
     @ResponseBody
-    News getById(@RequestBody String articleId){
+    News getById(@RequestParam String articleId){
         News byIdLike = elasticRepository.findByIdLike(articleId);
         return byIdLike;
     }
