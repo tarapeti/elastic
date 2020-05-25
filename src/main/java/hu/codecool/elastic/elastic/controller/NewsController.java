@@ -26,7 +26,6 @@ public class NewsController {
         return newsService.getHtml();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path="/all")
     @ResponseBody
     NewsDto getAll(){
@@ -34,7 +33,6 @@ public class NewsController {
         return new NewsDto(all);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path="/cont")
     @ResponseBody
     List<News> getByCont(@RequestBody String cont){
@@ -42,14 +40,12 @@ public class NewsController {
         return all;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path="/date")
     @ResponseBody
     List<News> getByDate(@RequestBody String date){
         List<News> all = elasticRepository.findByCreatedLike(date);
         return all;
     }
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path="/getById")
     @ResponseBody
     News getById(@RequestParam String articleId){
@@ -57,7 +53,6 @@ public class NewsController {
         return byIdLike;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping(path="/deleteAll")
     @ResponseBody
     void deleteAll(){
