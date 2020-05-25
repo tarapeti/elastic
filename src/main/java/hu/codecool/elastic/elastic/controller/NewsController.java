@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class NewsController {
@@ -48,9 +49,9 @@ public class NewsController {
     }
     @PostMapping(path="/getById")
     @ResponseBody
-    News getById(@RequestParam String articleId){
-        News byIdLike = elasticRepository.findByIdLike(articleId);
-        return byIdLike;
+    Optional<News> getById(@RequestParam String articleId){
+        Optional<News> byId = elasticRepository.findById(articleId);
+        return byId;
     }
 
     @DeleteMapping(path="/deleteAll")
@@ -58,4 +59,13 @@ public class NewsController {
     void deleteAll(){
         elasticRepository.deleteAll();
     }
+
+    @PostMapping(path="/updateArticle")
+    @ResponseBody
+    void updateArticle(@RequestParam String articleId, String updatedHeader, String updatedContent, String updatedDate){
+        Optional<News> updatableArticle = elasticRepository.findById(articleId);
+        //elasticRepository.save();
+
+    }
+
 }
