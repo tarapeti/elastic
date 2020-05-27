@@ -64,7 +64,13 @@ public class NewsController {
     @ResponseBody
     void updateArticle(@RequestParam String articleId, String updatedHeader, String updatedContent, String updatedDate){
         Optional<News> updatableArticle = elasticRepository.findById(articleId);
-        //elasticRepository.save();
+        if(updatableArticle.isPresent()){
+            News news = updatableArticle.get();
+            news.setHeader(updatedHeader);
+            news.setContent(updatedContent);
+            news.setCreated(updatedDate);
+            elasticRepository.save(news);
+        }
 
     }
 
